@@ -1,0 +1,54 @@
+// SupplyPulse - Power BI measures. Paste into a "Measures" table (Home > Enter data > blank table, then New measure).
+
+// ---------- Sales ----------
+Total Units = SUM ( fact_sales[units] )
+Revenue = SUM ( fact_sales[revenue] )
+Promo Share of Units =
+DIVIDE ( CALCULATE ( [Total Units], fact_sales[promo_flag] = 1 ), [Total Units] )
+
+// ---------- Forecast accuracy (use the `model` and `fold` slicers; default fold = test) ----------
+WAPE =
+DIVIDE ( SUM ( fact_forecast[abs_error] ), SUM ( fact_forecast[actual] ) )
+
+WAPE (Test, Gradient boosting) =
+CALCULATE ( [WAPE], fact_forecast[fold] = "test", fact_forecast[model] = "Gradient boosting" )
+
+WAPE (Test, Moving average) =
+CALCULATE ( [WAPE], fact_forecast[fold] = "test", fact_forecast[model] = "4-wk moving average" )
+
+WAPE Improvement % =
+1 - DIVIDE ( [WAPE (Test, Gradient boosting)], [WAPE (Test, Moving average)] )
+
+Forecast Bias =
+DIVIDE ( SUM ( fact_forecast[forecast] ) - SUM ( fact_forecast[actual] ), SUM ( fact_forecast[actual] ) )
+
+// ---------- Simulation (fact_sim_paths: one row per policy x Monte Carlo path) ----------
+Fill Rate = AVERAGE ( fact_sim_paths[fill_rate] )
+Stockout Rate = AVERAGE ( fact_sim_paths[stockout_rate] )
+Avg Inventory $ = AVERAGE ( fact_sim_paths[avg_inventory_value] )
+Total Cost $ = AVERAGE ( fact_sim_paths[total_cost] )
+
+Stockout Reduction % =
+VAR base = CALCULATE ( [Stockout Rate], fact_sim_paths[policy] = "baseline" )
+VAR sp   = CALCULATE ( [Stockout Rate], fact_sim_paths[policy] = "supplypulse" )
+RETURN 1 - DIVIDE ( sp, base )
+
+Inventory Reduction % =
+VAR base = CALCULATE ( [Avg Inventory $], fact_sim_paths[policy] = "baseline" )
+VAR sp   = CALCULATE ( [Avg Inventory $], fact_sim_paths[policy] = "supplypulse" )
+RETURN 1 - DIVIDE ( sp, base )
+
+Total Cost Reduction % =
+VAR base = CALCULATE ( [Total Cost $], fact_sim_paths[policy] = "baseline" )
+VAR sp   = CALCULATE ( [Total Cost $], fact_sim_paths[policy] = "supplypulse" )
+RETURN 1 - DIVIDE ( sp, base )
+
+// ---------- Replenishment ----------
+SKUs to Order =
+CALCULATE ( COUNTROWS ( fact_recommendation ), fact_recommendation[status] = "Order" )
+Order Value $ = SUM ( fact_recommendation[order_value] )
+Safety Stock Value $ =
+SUMX ( fact_recommendation, fact_recommendation[safety_stock] * fact_recommendation[unit_cost] )
+Overstocked SKUs =
+CALCULATE ( COUNTROWS ( fact_recommendation ), fact_recommendation[status] = "Overstocked" )
+Avg Weeks of Cover = AVERAGE ( fact_recommendation[weeks_of_cover] )

@@ -1,0 +1,65 @@
+{
+  "generated_for": {
+    "n_skus": 60,
+    "n_weeks": 260,
+    "test_weeks": 52,
+    "n_paths": 300,
+    "seed": 42
+  },
+  "forecast": {
+    "wape_gbm": 0.21537153968256476,
+    "wape_ma4": 0.2628997015041848,
+    "wape_snaive": 0.32529020426478333,
+    "bias_gbm": -0.022986607367700494,
+    "bias_ma4": -0.005069551475895975,
+    "wape_improvement_pct": 18.078438868392354,
+    "wape_gbm_promo_weeks": 0.2324799404918718,
+    "wape_ma4_promo_weeks": 0.3567382523889272
+  },
+  "simulation": {
+    "baseline": {
+      "fill_rate": 0.9862369133756903,
+      "stockout_rate": 0.02473148148148148,
+      "lost_units": 3270.868035495592,
+      "avg_inventory_value": 113426.90290777286,
+      "holding_cost": 26175.43913256297,
+      "shortage_cost": 26358.511538582046,
+      "total_cost": 52533.95067114501
+    },
+    "supplypulse": {
+      "fill_rate": 0.9903247238831314,
+      "stockout_rate": 0.013457175925925926,
+      "lost_units": 2299.7910148721544,
+      "avg_inventory_value": 111233.89506176706,
+      "holding_cost": 25669.36039886932,
+      "shortage_cost": 14745.12702276668,
+      "total_cost": 40414.487421636
+    },
+    "stockout_reduction_pct": 45.58685885436166,
+    "lost_units_reduction_pct": 29.688663990270182,
+    "inventory_reduction_pct": 1.9334106722361355,
+    "total_cost_reduction_pct": 23.069773155602004,
+    "inventory_reduction_at_matched_fill_pct": 15.522731197656814,
+    "paired_p05_p95": {
+      "stockout_reduction_pct": [
+        31.725894337834635,
+        57.62949543746646
+      ],
+      "lost_units_reduction_pct": [
+        11.60075834684133,
+        46.198315406648895
+      ],
+      "inventory_reduction_pct": [
+        1.2551351516933928,
+        2.607867081223476
+      ]
+    }
+  },
+  "optimiser": {
+    "status": "Optimal",
+    "target_fill_rate": 0.98,
+    "expected_fill_rate": 0.9975612455485546,
+    "safety_stock_value": 96322.30373263937
+  },
+  "baseline_policy": "order-up-to = 4-wk moving average x (L+1+2) weeks"
+}

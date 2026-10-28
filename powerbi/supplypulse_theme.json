@@ -1,0 +1,23 @@
+{
+  "name": "SupplyPulse",
+  "dataColors": ["#0F766E", "#94A3B8", "#D97706", "#1F2937", "#B42318", "#5B8DB8"],
+  "background": "#FFFFFF",
+  "foreground": "#1F2937",
+  "tableAccent": "#0F766E",
+  "good": "#0F766E",
+  "bad": "#B42318",
+  "neutral": "#94A3B8",
+  "textClasses": {
+    "title": { "fontFace": "Segoe UI Semibold", "fontSize": 14, "color": "#1F2937" },
+    "label": { "fontFace": "Segoe UI", "fontSize": 11, "color": "#6B7280" },
+    "callout": { "fontFace": "Segoe UI Semibold", "fontSize": 28, "color": "#1F2937" }
+  },
+  "visualStyles": {
+    "*": {
+      "*": {
+        "border": [{ "show": false }],
+        "background": [{ "color": { "solid": { "color": "#FFFFFF" } }, "transparency": 0 }]
+      }
+    }
+  }
+}

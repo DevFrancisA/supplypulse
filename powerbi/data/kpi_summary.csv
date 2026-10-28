@@ -1,0 +1,8 @@
+kpi,value
+WAPE - moving average baseline,0.2628997015041848
+WAPE - gradient boosting,0.21537153968256476
+Stockout reduction (SKU-weeks),0.45586858854361656
+Lost-units reduction,0.2968866399027018
+Average inventory reduction,0.019334106722361355
+Fill rate - baseline,0.9862369133756903
+Fill rate - SupplyPulse,0.9903247238831314
